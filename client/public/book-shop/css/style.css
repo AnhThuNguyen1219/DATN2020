@@ -2237,6 +2237,8 @@ form.findus .form-control, form.findus textarea {
 
 .product-body .product-list  .share-product-details .share-product-icons{
     padding: 0px;
+    position: relative;
+    top: 80px;
 }
 
 

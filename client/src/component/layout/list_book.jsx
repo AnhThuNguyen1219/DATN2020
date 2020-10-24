@@ -28,6 +28,7 @@ const ListBooks = () => {
   return (
     <div className="container list-book">
         <h2>NEW</h2>
+        <hr/>
       <div className="row book">
           
         <CardBook

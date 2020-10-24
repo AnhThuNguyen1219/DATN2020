@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import BookDetail from "./component/page/book-detail";
 import Home from "./component/page/home";
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
           <div className="loader-spinner" />
         </div>
       </div>
-      <Home/>
+      <BookDetail/>
     </div>
   );
 }
