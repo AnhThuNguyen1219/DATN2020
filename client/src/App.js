@@ -1,24 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import Home from "./component/page/home";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
+    <div>
+      <div>
+        <a className="scroll-top-arrow" href="javascript:void(0);">
+          <i className="fa fa-angle-up" />
         </a>
-      </header>
+        {/*LOADER*/}
+        <div className="loader">
+          <div className="loader-spinner" />
+        </div>
+      </div>
+      <Home/>
     </div>
   );
 }
