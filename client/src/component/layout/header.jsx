@@ -77,10 +77,10 @@ const SideMenu = () => {
           </nav>
           <div className="side-footer w-100">
             <div className="row">
-              <button type="button" className="btn btn-outline-dark col-6">
+              <button type="button" className="btn btn-outline-dark col-6 sidelogin_toggle" id="log-in-btn">
                 LOG IN
               </button>{" "}
-              <button type="button" className="btn btn-outline-dark col-6">
+              <button type="button" className="btn btn-outline-dark col-6 sidelogin_toggle " id="sign-up-btn">
                 SIGN UP
               </button>
             </div>
@@ -142,7 +142,7 @@ const SideLogin = () => {
               </div>
               <div
                 id="login-form"
-                className="collapse show"
+                className="collapse log-in"
                 aria-labelledby="login"
                 data-parent="#accordionExample"
               >
@@ -181,7 +181,7 @@ const SideLogin = () => {
                     <button type="submit" className="btn btn-outline-dark">
                       Login
                     </button>
-                    <button type="submit" className="btn btn-outline-dark">
+                    <button type="submit" className="btn btn-outline-dark"id="close_login">
                       Cancel
                     </button>
                   </form>
@@ -198,6 +198,7 @@ const SideLogin = () => {
                     data-target="#collapseTwo"
                     aria-expanded="false"
                     aria-controls="collapseTwo"
+                    
                   >
                     SIGN UP
                   </button>
@@ -205,7 +206,7 @@ const SideLogin = () => {
               </div>
               <div
                 id="collapseTwo"
-                className="collapse"
+                className="collapse sign-up"
                 aria-labelledby="headingTwo"
                 data-parent="#accordionExample"
               >
@@ -239,7 +240,7 @@ const SideLogin = () => {
                     <button type="submit" className="btn btn-outline-dark">
                       Sign up
                     </button>
-                    <button type="submit" className="btn btn-outline-dark">
+                    <button type="submit" className="btn btn-outline-dark"id="close_login">
                       Cancel
                     </button>
                   </form>
@@ -335,8 +336,8 @@ const Header = () => {
                   <li className="d-inline-block mini-menu-card">
                     <a
                       href="javascript:void(0)"
-                      className="d-inline-block sidelogin_btn d-block"
-                      id="sidelogin_toggle"
+                      className="d-inline-block sidelogin_btn d-block sidelogin_toggle"
+                      
                     >
                       <i className="lni lni-enter" />
                     </a>

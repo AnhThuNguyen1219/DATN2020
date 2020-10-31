@@ -394,7 +394,7 @@ jQuery(function ($) {
     });
   }
   /*Login Onclick*/
-  let sideLoginToggle = $("#sidelogin_toggle");
+  let sideLoginToggle = $(".sidelogin_toggle");
   let sideLogin = $(".side-login");
   if (sideLoginToggle.length) {
     sideLoginToggle.on("click", function () {
@@ -402,12 +402,12 @@ jQuery(function ($) {
       sideLogin.addClass("side-login-active");
       $(function () {
         setTimeout(function () {
-          $("#close_side_login").fadeIn(300);
+          $("#close_side_login", "#close_login").fadeIn(300);
         }, 300);
       });
     });
     $(
-      "#close_side_login , #btn_loginNavClose , .side-login-nav .nav-link.pagescroll"
+      "#close_side_login ,#close_login, #btn_loginNavClose , .side-login-nav .nav-link.pagescroll"
     ).on("click", function () {
       $("body").removeClass("overflow-hidden");
       sideLogin.removeClass("side-login-active");
@@ -437,6 +437,23 @@ jQuery(function ($) {
       }
     });
   }
+
+  let signupBTN = $("#sign-up-btn");
+  let signupForm = $(".sign-up");
+  let loginBTN = $("#log-in-btn");
+  let loginForm = $(".log-in");
+  if (signupBTN.length) {
+    signupBTN.on("click", function () {
+      signupForm.addClass("show");
+      loginForm.removeClass("show");
+    });
+   } 
+   if (loginBTN.length) {
+      loginBTN.on("click", function () {
+        signupForm.removeClass("show");
+        loginForm.addClass("show");
+      });
+    }
 
   /* =====================================
           Parallax

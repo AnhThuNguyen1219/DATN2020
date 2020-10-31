@@ -911,6 +911,9 @@ a.dropdown-toggle::after {
     position: relative;
     margin-left: 10px;
 }
+.lni-enter:hover{
+    color:#f7941d;
+}
 .side-login .btn-close,
 .side-login .btn-close::before,
 .side-login .btn-close::after {
@@ -1848,7 +1851,7 @@ color: deeppink;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-.side-menu .sub-title{
+.sub-title{
     font-size: 14px;
     margin-left: 43px;
     margin-top: 15px;

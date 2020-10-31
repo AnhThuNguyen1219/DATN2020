@@ -6,9 +6,7 @@ import Header from '../layout/header';
 const BookDetail = () =>{
     return(
         <>
-        <Header/>
         <Detail/>
-        <Footer/>
         </>
     );
 }
