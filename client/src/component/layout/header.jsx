@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useState} from "react";
+import axios from "axios";
 
 const Categories = (props) => {
   return (
@@ -110,6 +111,30 @@ const SideMenu = () => {
 };
 
 const SideLogin = () => {
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+  function handleLoginClick() {
+
+    var formData = new FormData()
+  
+    formData.append('username', username);
+    formData.append('password', password);
+    var object = {};
+    formData.forEach(function (value, key) {
+      object[key] = value;
+    });
+    var data = JSON.stringify(object);
+    axios.post('http://localhost:9000/auth/login', {
+      username: username,
+      password: password
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
   return (
     <>
       {/* side Login */}
@@ -149,12 +174,13 @@ const SideLogin = () => {
                 <div className="card-body">
                   <form>
                     <div className="form-group">
-                      <label htmlFor="exampleInputEmail1">Email address</label>
+                      <label htmlFor="exampleInputEmail1">Username</label>
                       <input
-                        type="email"
+                        type="text"
                         className="form-control"
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
+                        onChange={(event) => { setUsername(event.target.value) }}
                       />
                     </div>
                     <div className="form-group">
@@ -163,6 +189,7 @@ const SideLogin = () => {
                         type="password"
                         className="form-control"
                         id="exampleInputPassword1"
+                        onChange={(event) => { setPassword(event.target.value) }}
                       />
                     </div>
                     <div className="form-group form-check">
@@ -178,7 +205,7 @@ const SideLogin = () => {
                         Remember me
                       </label>
                     </div>
-                    <button type="submit" className="btn btn-outline-dark">
+                    <button type="submit" className="btn btn-outline-dark"onClick={handleLoginClick()}>
                       Login
                     </button>
                     <button type="submit" className="btn btn-outline-dark"id="close_login">
