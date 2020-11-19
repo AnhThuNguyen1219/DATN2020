@@ -1,16 +1,19 @@
-import React, {useState} from "react";
-import axios from "axios";
+import React, { useState } from "react";
+
+import { selectUser } from "../../action/UserAction";
+import { useSelector, useDispatch } from "react-redux";
+import login from "../../service/LoginService.jsx";
+import { useHistory } from "react-router-dom";
 
 const Categories = (props) => {
   return (
     <>
       <div className="col-lg-3 col-md-6 col-sm-12 mengmenu_border">
-        <h5 className="dropdown-title bottom10"> Big Categories </h5>
-        <ul>
+        <ul className="dropdown-title bottom10">
           <li>
             <i className="lni-angle-double-right right-arrow" />
             <a className="dropdown-item" href="book-shop\product-listing.html">
-              Small categories
+              Thể loại
             </a>
           </li>
         </ul>
@@ -22,11 +25,10 @@ const Categories = (props) => {
 const SideMenuCategories = (props) => {
   return (
     <>
-      <h5 className="sub-title">Big Categories</h5>
       <ul className="navbar-nav mt-2">
         <li className="nav-item">
           <a className="nav-link" href="book-shop\product-listing.html">
-            Small Categories
+            Thể loại
           </a>
         </li>
       </ul>
@@ -78,10 +80,18 @@ const SideMenu = () => {
           </nav>
           <div className="side-footer w-100">
             <div className="row">
-              <button type="button" className="btn btn-outline-dark col-6 sidelogin_toggle" id="log-in-btn">
+              <button
+                type="button"
+                className="btn btn-outline-dark col-6 sidelogin_toggle"
+                id="log-in-btn"
+              >
                 LOG IN
               </button>{" "}
-              <button type="button" className="btn btn-outline-dark col-6 sidelogin_toggle " id="sign-up-btn">
+              <button
+                type="button"
+                className="btn btn-outline-dark col-6 sidelogin_toggle "
+                id="sign-up-btn"
+              >
                 SIGN UP
               </button>
             </div>
@@ -109,32 +119,102 @@ const SideMenu = () => {
     </>
   );
 };
+const Avatar = () => {
+  const token = localStorage.getItem("accessToken")
+  const id = localStorage.getItem("user-id")
+  const name = localStorage.getItem("user-name")
+  const ava = localStorage.getItem("user-ava")
+  const dob = localStorage.getItem("user-dob")
+  if (token == null)
+    return (
+      <>
+        <li className="d-inline-block mini-menu-card">
+          <a
+            href="javascript:void(0)"
+            className="d-inline-block sidelogin_btn d-block sidelogin_toggle"
+          >
+            <i className="lni lni-enter" />
+          </a>
+        </li>
+      </>
+    );
+  else {
+    return (
+      <li className="d-inline-block mini-menu-card">
+        <div className="media">
+          <img
+            src={ava}
+            className="align-self-center avatar"
+            alt="..."
+          />
+
+          {/* <div className="media-body"> */}
+          <div className="dropdown">
+            <button
+              type="button"
+              className="btn dropdown-toggle dropdown-toggle-split"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <span className="sr-only">User Information</span>
+            </button>
+            <div className="dropdown-menu">
+              <a className="dropdown-item" href="/user"id={id}>
+                {name}
+              </a>
+              <a className="dropdown-item" href="#">
+                Cài đặt
+              </a>
+              <div className="dropdown-divider"></div>
+              <a className="dropdown-item" href="#">
+                <i className="lni lni-exit"></i>
+                Đăng xuất
+              </a>
+            </div>
+          </div>
+        </div>
+      </li>
+    );
+  }
+};
 
 const SideLogin = () => {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
-  function handleLoginClick() {
+  const [userInfor, setUserInfo] = useState();
+  const [waitingLogin, setWaitingLogin] = useState(false);
+  const history = useHistory();
+  const dispatchUserInfo = useDispatch();
 
-    var formData = new FormData()
-  
-    formData.append('username', username);
-    formData.append('password', password);
-    var object = {};
-    formData.forEach(function (value, key) {
-      object[key] = value;
-    });
-    var data = JSON.stringify(object);
-    axios.post('http://localhost:9000/auth/login', {
-      username: username,
-      password: password
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+  function handleLoginClick(event) {
+    event.preventDefault();
+     
+      // setUserInfo(response.data);
+      // console.log(response.data.accessToken);
+      // return dispatchUserInfo(selectUser(userInfor));
+      setWaitingLogin(true);
+      login(username, password)
+      .then(([status, data])=>{
+        if (status == 200) 
+        {
+          localStorage.setItem("accessToken", data.accessToken);
+          localStorage.setItem("user-id", data.id);
+          localStorage.setItem("user-name", data.username);
+          localStorage.setItem("user-ava", data.avatar_url);
+          localStorage.setItem("user-dob", data.dob);
+
+          setWaitingLogin(false);
+          history.push("/");
+          setUserInfo(data);
+          dispatchUserInfo(selectUser(userInfor));
+          window.location.reload(false);
+        }
+        else alert(status)
+      })
   }
+  
+
   return (
     <>
       {/* side Login */}
@@ -161,7 +241,7 @@ const SideLogin = () => {
                     aria-expanded="true"
                     aria-controls="login-form"
                   >
-                    LOGIN
+                    ĐĂNG NHẬP
                   </button>
                 </h2>
               </div>
@@ -172,24 +252,28 @@ const SideLogin = () => {
                 data-parent="#accordionExample"
               >
                 <div className="card-body">
-                  <form>
+                  <form onSubmit={handleLoginClick}>
                     <div className="form-group">
-                      <label htmlFor="exampleInputEmail1">Username</label>
+                      <label htmlFor="exampleInputEmail1">Tên người dùng</label>
                       <input
                         type="text"
                         className="form-control"
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
-                        onChange={(event) => { setUsername(event.target.value) }}
+                        onChange={(event) => {
+                          setUsername(event.target.value);
+                        }}
                       />
                     </div>
                     <div className="form-group">
-                      <label htmlFor="exampleInputPassword1">Password</label>
+                      <label htmlFor="exampleInputPassword1">Mật khẩu</label>
                       <input
                         type="password"
                         className="form-control"
                         id="exampleInputPassword1"
-                        onChange={(event) => { setPassword(event.target.value) }}
+                        onChange={(event) => {
+                          setPassword(event.target.value);
+                        }}
                       />
                     </div>
                     <div className="form-group form-check">
@@ -205,11 +289,24 @@ const SideLogin = () => {
                         Remember me
                       </label>
                     </div>
-                    <button type="submit" className="btn btn-outline-dark"onClick={handleLoginClick()}>
-                      Login
+                    <button
+                      type="submit"
+                      className="btn btn-outline-dark"
+                       
+                    >
+                      {waitingLogin && 
+                                    <div className="spinner-border spinner-border-sm mr-2" role="status">
+                                        <span className="sr-only">Loading...</span>
+                                    </div>
+                                }
+                      Đăng nhập
                     </button>
-                    <button type="submit" className="btn btn-outline-dark"id="close_login">
-                      Cancel
+                    <button
+                      type="submit"
+                      className="btn btn-outline-dark"
+                      id="close_login"
+                    >
+                      Huỷ
                     </button>
                   </form>
                 </div>
@@ -225,9 +322,8 @@ const SideLogin = () => {
                     data-target="#collapseTwo"
                     aria-expanded="false"
                     aria-controls="collapseTwo"
-                    
                   >
-                    SIGN UP
+                    ĐĂNG KÍ
                   </button>
                 </h2>
               </div>
@@ -238,18 +334,20 @@ const SideLogin = () => {
                 data-parent="#accordionExample"
               >
                 <div className="card-body">
-                <form>
+                  <form>
                     <div className="form-group">
-                      <label htmlFor="exampleInputEmail1">Email address</label>
+                      <label htmlFor="exampleInputEmail1">Tên người dùng</label>
                       <input
-                        type="email"
+                        type="text"
                         className="form-control"
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
                       />
                     </div>
                     <div className="form-group">
-                      <label htmlFor="exampleInputPassword1">Password</label>
+                      <label htmlFor="exampleInputPassword1">
+                        Đặt mật khẩu
+                      </label>
                       <input
                         type="password"
                         className="form-control"
@@ -257,7 +355,9 @@ const SideLogin = () => {
                       />
                     </div>
                     <div className="form-group">
-                      <label htmlFor="exampleInputPassword1">Retype password</label>
+                      <label htmlFor="exampleInputPassword1">
+                        Nhập lại mật khẩu
+                      </label>
                       <input
                         type="password"
                         className="form-control"
@@ -265,10 +365,14 @@ const SideLogin = () => {
                       />
                     </div>
                     <button type="submit" className="btn btn-outline-dark">
-                      Sign up
+                      Đăng kí
                     </button>
-                    <button type="submit" className="btn btn-outline-dark"id="close_login">
-                      Cancel
+                    <button
+                      type="submit"
+                      className="btn btn-outline-dark"
+                      id="close_login"
+                    >
+                      Huỷ
                     </button>
                   </form>
                 </div>
@@ -289,8 +393,8 @@ const Header = () => {
       <div className="container">
         <div className="row upper-nav">
           <div className=" text-left nav-logo">
-            <a href="index-book-shop.html" className="navbar-brand">
-              <img src="book-shop\img\logo.png" alt="img" />
+            <a href="/" className="navbar-brand">
+              <img src={require("../static/img/logo.png")} alt="img" />
             </a>
           </div>
           <div className="ml-auto nav-mega d-flex justify-content-end align-items-center">
@@ -302,7 +406,7 @@ const Header = () => {
                     href="index-book-shop.html"
                   >
                     <img
-                      src="book-shop\img\logo.png"
+                      src={require("../static/img/logo.png")}
                       alt="logo"
                       className="logo-scrolled"
                     />
@@ -311,7 +415,7 @@ const Header = () => {
                     <ul className="navbar-nav ml-auto">
                       <li className="nav-item">
                         <a className="nav-link" href="/">
-                          HOME
+                          TRANG CHỦ
                         </a>
                       </li>
 
@@ -324,7 +428,7 @@ const Header = () => {
                           aria-expanded="false"
                         >
                           {" "}
-                          BOOK'S CATEGORIES{" "}
+                          THỂ LOẠI SÁCH{" "}
                         </a>
                         <ul className="dropdown-menu megamenu flexable-megamenu">
                           <li>
@@ -340,7 +444,7 @@ const Header = () => {
                       </li>
                       <li className="nav-item">
                         <a className="nav-link" href="book-shop\contact.html">
-                          CONTACT
+                          LIÊN HỆ
                         </a>
                       </li>
                     </ul>
@@ -360,15 +464,8 @@ const Header = () => {
                       <i className="lni lni-search search-sidebar-hover" />
                     </a>
                   </li>
-                  <li className="d-inline-block mini-menu-card">
-                    <a
-                      href="javascript:void(0)"
-                      className="d-inline-block sidelogin_btn d-block sidelogin_toggle"
-                      
-                    >
-                      <i className="lni lni-enter" />
-                    </a>
-                  </li>
+                  
+                  <Avatar></Avatar>
                   <a
                     href="javascript:void(0)"
                     className="d-inline-block sidemenu_btn d-block"

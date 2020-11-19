@@ -279,29 +279,24 @@ jQuery(function ($) {
     var marginSlider = document.getElementById("slider-range");
 
     noUiSlider.create(marginSlider, {
-      start: [0, 800],
+      start: 50,
       margin: 30,
       step: 1,
       connect: true,
       range: {
         min: 0,
-        max: 1000,
+        max: 100,
       },
     });
 
-    var marginMin = document.getElementById("min-p"),
-      marginMax = document.getElementById("max-p");
+    marginMax = document.getElementById("max-p");
 
     marginSlider.noUiSlider.on("update", function (values, handle) {
-      if (handle) {
+      
         var str = values[handle];
         var res = str.split(".");
         marginMax.innerHTML = "$" + res[0];
-      } else {
-        var str = values[handle];
-        var res = str.split(".");
-        marginMin.innerHTML = "$" + res[0] + " - ";
-      }
+      
     });
   }
 

@@ -42,9 +42,9 @@ const BookCategory = (props) => {
   return (
     <>
       <section id="slider-sec" className="slider-sec parallax"></section>
-      <div class="product-listing">
-        <div class="container">
-          <div class="row no-gutters">
+      <div className="product-listing">
+        <div className="container">
+          <div className="row no-gutters">
             <SideCategory />
             {/* START PRODUCT COL 8 */}
             <div className="col-md-12 col-lg-8 order-1 order-lg-2">

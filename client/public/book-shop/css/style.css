@@ -276,7 +276,7 @@ END scroll-top-arrow
 /*Small Button*/
 .black-sm-btn{
     font-size: 12px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Mitr', sans-serif;
     padding: 6px 12px;
     border: solid 1px #000000;
     color: #000000;
@@ -297,20 +297,20 @@ END scroll-top-arrow
 
 /*color to gradient*/
 /*Slide 2 First Gradient Button*/
-.black-border-color-yellow-gradient-btn{font-size: 12px;font-family: 'Poppins', sans-serif;padding: 10px 25px;border: solid 1px #000000;color: #000000;font-weight: 600;background-color: white;border-radius: 0;position: relative;z-index: 2;}
+.black-border-color-yellow-gradient-btn{font-size: 12px;font-family: 'Mitr', sans-serif;padding: 10px 25px;border: solid 1px #000000;color: #000000;font-weight: 600;background-color: white;border-radius: 0;position: relative;z-index: 2;}
 .black-border-color-yellow-gradient-btn:after {position: absolute;top: 0;left: 0;content: '';width: 100%;height: 100%;opacity: 0;color: #FFFFFF !important;background-color:#f7941d;border: solid 1px transparent;z-index: -1;}
 .black-border-color-yellow-gradient-btn:hover:after {opacity: 1;}
 .btn.black-border-color-yellow-gradient-btn:hover{color: #FFFFFF;border:solid 1px transparent;}
 
-.black-color-yellow-gradient-btn{font-size: 12px;font-family: 'Poppins', sans-serif;padding: 10px 25px;border: solid 1px transparent;color: #ffffff;font-weight: 600;background-color:#000000;border-radius: 0;position: relative;z-index: 2;}
+.black-color-yellow-gradient-btn{font-size: 12px;font-family: 'Mitr', sans-serif;padding: 10px 25px;border: solid 1px transparent;color: #ffffff;font-weight: 600;background-color:#000000;border-radius: 0;position: relative;z-index: 2;}
 .black-color-yellow-gradient-btn:after {position: absolute;top: 0;left: 0;content: '';width: 100%;height: 100%;opacity: 0;color: #FFFFFF !important;background-color:#f7941d;border: solid 1px #f7941d !important;z-index: -1;}
 .black-color-yellow-gradient-btn:hover:after {opacity: 1;}
 .btn.black-color-yellow-gradient-btn:hover{color: #FFFFFF;border:solid 1px #f7941d !important;}
 
-.green-color-yellow-gradient-btn{font-size: 12px;font-family: 'Poppins', sans-serif;padding: 10px 25px;color:#ffffff;;font-weight: 600;background-color:#62ab00;border:1px solid transparent;border-radius: 0px;-webkit-transition: .8s ease !important;-o-transition: .8s ease !important;transition: .8s ease !important;}
+.green-color-yellow-gradient-btn{font-size: 12px;font-family: 'Mitr', sans-serif;padding: 10px 25px;color:#ffffff;;font-weight: 600;background-color:#62ab00;border:1px solid transparent;border-radius: 0px;-webkit-transition: .8s ease !important;-o-transition: .8s ease !important;transition: .8s ease !important;}
 .green-color-yellow-gradient-btn:hover{color: #ffffff !important; ;background-color:#f7941d !important; border: 1px solid transparent;}
 
-.yellow-color-green-gradient-btn{font-size: 12px;font-family: 'Poppins', sans-serif;padding: 10px 25px;color:#ffffff;;font-weight: 600;background-color:#f7941d;border:1px solid transparent;border-radius: 0px;-webkit-transition: .8s ease !important;-o-transition: .8s ease !important;transition: .8s ease !important;}
+.yellow-color-green-gradient-btn{font-size: 12px;font-family: 'Mitr', sans-serif;padding: 10px 25px;color:#ffffff;;font-weight: 600;background-color:#f7941d;border:1px solid transparent;border-radius: 0px;-webkit-transition: .8s ease !important;-o-transition: .8s ease !important;transition: .8s ease !important;}
 .yellow-color-green-gradient-btn:hover{color: #ffffff !important; ;background-color:#62ab00 !important; border: 1px solid transparent;}
 
 
@@ -347,7 +347,7 @@ END scroll-top-arrow
 }
 
 .product-listing .product-filter-nav .filter-heading{
-    font-family: Poppins, sans-serif;
+    font-family: 'Mitr', sans-serif;
     font-size: 24px;
     font-weight: 500;
     color: #000000;
@@ -375,7 +375,7 @@ END scroll-top-arrow
     font-size: 16px;
     color: #000000;
     opacity: .8;
-    font-family: Poppins, sans-serif;
+    font-family: 'Mitr', sans-serif;
     font-weight: normal;
     -webkit-transition: .8s ease;
     -o-transition: .8s ease;
@@ -392,19 +392,19 @@ END scroll-top-arrow
 .product-listing .product-filter-nav .product-category ul li:hover span{
     color: #62ab00;
 }
-.product-listing .product-filter-nav .product-price #slider-range{
+.product-price #slider-range{
     margin-top: 15px;
     margin-bottom: 15px;
 }
-.product-listing .product-filter-nav .product-price .price-num{
+.product-price .price-num{
     font-size: 14px;
-    font-family: Poppins, "sans-serif";
+    font-family: 'Mitr', sans-serif;
     font-weight: normal;
     margin-bottom: 15px;
 }
-.product-listing .product-filter-nav .product-price .price-num #min-p,.product-section-body .product-filter-nav .product-price .price-num #max-p{
+.product-section-body .product-filter-nav .product-price .price-num #max-p{
     color: #f7941d;
-    font-family: Poppins, "sans-serif";
+    font-family: 'Mitr', sans-serif;
     font-weight: normal;
 }
 
@@ -434,14 +434,14 @@ END scroll-top-arrow
 }
 
 .product-listing-heading .heading{
-    font-family: Poppins, "sans-serif";
+    font-family: 'Mitr', sans-serif;
     font-size: 40px;
     font-weight: normal;
     margin-bottom: 15px;
 }
 
 .product-listing-heading .para_text{
-    font-family: "Open Sans";
+    font-family: 'Mitr', sans-serif;
     font-size: 16px;
     font-weight: normal;
 }
@@ -471,7 +471,7 @@ END scroll-top-arrow
 .product-listing-products .product-list .p-item-detail  .p-item-name{
     font-size: 18px;
     color: #000000;
-    font-family: Poppins, sans-serif;
+    font-family: 'Mitr', sans-serif;
     font-weight: normal;
     margin-bottom: 8px;
     -webkit-transition: .4s ease;
@@ -482,7 +482,7 @@ END scroll-top-arrow
 .product-listing-products .product-list .p-item-detail .p-item-price{
     font-size: 15px;
     color: #f7941d;
-    font-family: Poppins, sans-serif;
+    font-family: 'Mitr', sans-serif;
     font-weight: normal;
     text-align: center;
     -webkit-transition: .8s ease;
@@ -616,7 +616,7 @@ END scroll-top-arrow
 .homer-banner .banner-description h1{
     font-size: 70px;
     font-weight: 200;
-    font-family: Poppins, "sans-serif";
+    font-family: 'Mitr', sans-serif;
     margin-bottom: 10px;
 }
 
@@ -765,7 +765,7 @@ END scroll-top-arrow
 
 }
 .search-box input[type="text"]{
-    font-family: "Poppins", sans-serif;
+    font-family: 'Mitr', sans-serif;
     font-size: 14px;
     font-weight: normal;
     width: 150px;
@@ -888,7 +888,7 @@ END scroll-top-arrow
 .outlet-title{
     font-size: 18px;
     margin-bottom: 12px;
-    font-family: Poppins, "sans-serif";
+    font-family: 'Mitr', sans-serif;
     font-weight: 600;
 }
 .brand-search-box .media .brand-box-holder{
@@ -949,7 +949,7 @@ END scroll-top-arrow
 }
 
 .navbar{
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Mitr', sans-serif;
 }
 
 
@@ -2082,6 +2082,25 @@ form.findus .form-control, form.findus textarea {
 .product-detail{
     margin-top: 50px;
 }
+.reviews{
+    margin-top: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.1) ;
+    background-color: #fff;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.reviews .lni-heart-filled{
+    color:#dc3545;
+}
+.reviewSubmit{margin-top:10px} 
+#formControlRange{
+    width: 50%;
+    padding:0;
+}
+.reviewSubmit .btn{
+    border-radius: 50px;
+}
 
 
 .product-body .product-list .product-item .p-item-img{
@@ -2239,7 +2258,6 @@ form.findus .form-control, form.findus textarea {
 .product-body .product-list  .share-product-details .share-product-icons{
     padding: 0px;
     position: relative;
-    top: 80px;
 }
 
 
@@ -2271,7 +2289,10 @@ form.findus .form-control, form.findus textarea {
 .product-body .product-list  .share-product-details .share-product-icons li a:hover{
     color: #FFFFFF;
 }
-
+.product-body .product-list  .share-product-details {
+    margin-top:20px;
+margin-bottom:10px;
+}
 
 /*nav tabs*/
 
@@ -2297,7 +2318,7 @@ form.findus .form-control, form.findus textarea {
 
 .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
     border: none;
-    background-color: #62ab00;
+    background-color: #f1c30f;
     color: #ffffff;
 }
 .nav-tabs .nav-item {
@@ -3230,7 +3251,9 @@ textarea:focus{
     .product-body .product-list .product-single-price h4 {
         margin-top: 15px;
     }
-
+    .product-tags-list{
+        margin-bottom:50px;
+    }
     .product-tags-list .breadcrumb{
         display: -webkit-box;
         display: -ms-flexbox;

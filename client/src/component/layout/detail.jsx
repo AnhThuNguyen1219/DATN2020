@@ -1,21 +1,21 @@
-import React from "react";
-
-const LinktoBook = () => {
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import {addFavourBook} from "../../service/DataService.jsx";
+import Review from "./review.jsx";
+import { Collapse, Button, CardBody, Card } from "reactstrap";
+const LinktoBook = (props) => {
   return (
     <nav aria-label="breadcrumb">
       <ol className="breadcrumb text-center text-lg-left">
         <li className="breadcrumb-item">
-          <a href="javascript:void(0)">Home</a>
-        </li>
-        <li className="breadcrumb-item">
-          <a href="javascript:void(0)">Categories</a>
+          <a href="/">Trang chủ</a>
         </li>
         <li className="breadcrumb-item" aria-current="page">
-          <a href="javascript:void(0)">Books</a>
+          <a href="">Books</a>
         </li>
         <li className="breadcrumb-item">
           <a className="active" href="javascript:void(0)">
-            The Road
+            {props.Title}
           </a>
         </li>
       </ol>
@@ -23,7 +23,7 @@ const LinktoBook = () => {
   );
 };
 
-const BookImg = () => {
+const BookImg = (props) => {
   return (
     <>
       <div className="wrapper">
@@ -35,40 +35,8 @@ const BookImg = () => {
             <div className="swiper-slide">
               {" "}
               <a href="img\book-1-1.jpg" data-fancybox={1} title="Zoom In">
-                <img className="myimage" src="img\book-1-1.jpg" alt="gallery" />
+                <img className="myimage" src={props.cover} alt="gallery" />
               </a>
-            </div>
-            <div className="swiper-slide">
-              {" "}
-              <a href="img\book-1.jpg" data-fancybox={2} title="Zoom In">
-                <img className="myimage" src="img\book-1.jpg" alt="thumnails" />
-              </a>
-            </div>
-            <div className="swiper-slide">
-              {" "}
-              <a href="img\book-1-2.jpg" data-fancybox={3} title="Zoom In">
-                <img
-                  className="myimage"
-                  src="img\book-1-2.jpg"
-                  alt="thumnails"
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="Thumbs swiper-container" id="thumbs">
-          <div className="swiper-wrapper">
-            <div className="swiper-slide">
-              {" "}
-              <img src="img\book-1-1.jpg" alt="thumnails" />
-            </div>
-            <div className="swiper-slide">
-              {" "}
-              <img src="img\book-1.jpg" alt="thumnails" />
-            </div>
-            <div className="swiper-slide">
-              {" "}
-              <img src="img\book-1-2.jpg" alt="thumnails" />
             </div>
           </div>
         </div>
@@ -78,38 +46,65 @@ const BookImg = () => {
 };
 
 const BookInfor = (props) => {
+  const [isFavour, setIsFavour] = useState(false);
+  function handleFavour(event) {
+    event.preventDefault();
+    if (props.userID == null)
+      alert("Bạn phải đăng nhập để thực hiện chức năng này!");
+    else {
+      addFavourBook(props.userID, props.data.id).then((status) => {
+        if (status == 200) {
+         setIsFavour(true);
+
+        } else {
+          alert(status);
+          console.log(status);
+        }
+      });
+    }
+  }
+  
+  function handleReview(event) {
+    event.preventDefault();
+    if (props.userID == null)
+      alert("Bạn phải đăng nhập để thực hiện chức năng này!");
+    else setIsOpen(!isOpen);
+  }
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
+
   return (
     <div className="row product-list product-detail">
       <div className="col-12 col-lg-6 product-detail-slider">
-        <BookImg />
+        <BookImg cover={props.data.cover} />
       </div>
       <div className="col-12 col-lg-6 text-center text-lg-left">
-        <h1> Name</h1>
+        <h1>{props.data.title}</h1>
 
         <div className="dropdown-divider" />
         <div className="product-tags-list">
           <nav aria-label="breadcrumb">
             <ol>
               <li>
-                <p className="d-inline">
-                  SKU: <span>00012</span>
+                <p className="d-inline" id={props.author.id}>
+                  Tác giả: <span>{props.author.name}</span>
                 </p>
               </li>
               <li>
-                <p className="d-inline">
-                  Author: <span>00012</span>
-                </p>
-              </li>
-              <li>
-                <p className="d-inline">
-                  Publisher: <span>00012</span>
+                <p className="d-inline" id={props.publisher.id}>
+                  Nhà xuất bản: <span>{props.publisher.name}</span>
                 </p>
               </li>
               <li>
                 <span className="d-inline">
-                  Categories: <a href="javascript:void(0)">Classic</a>
-                  <span className="comma-separtor">,</span>
-                  <a href="javascript:void(0)">Fantasy</a>
+                  Thể loại:{" "}
+                  {props.category.map((cate) => (
+                    <>
+                      <a href="javascript:void(0)" id={cate.id}>
+                        {cate.name}
+                      </a>{" "}
+                    </>
+                  ))}
                 </span>
               </li>
             </ol>
@@ -119,7 +114,7 @@ const BookInfor = (props) => {
         <div className="share-product-details">
           <ul className="share-product-icons">
             <li>
-              <p>Share Link:</p>
+              <p>Chia sẻ:</p>
             </li>
             <li>
               <a href="javascript:void(0)" className="facebook-bg-hvr">
@@ -147,17 +142,44 @@ const BookInfor = (props) => {
         {/* button */}
         <div className="row book-detail-button">
           <div className="col-6">
-            <button type="button" class="btn btn-outline-danger ">
-              <i class="lni lni-heart"></i> Add to favourite
-            </button>
+            {isFavour ? (
+              <button type="button" className="btn btn-danger">
+                Đã yêu thích
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="btn btn-outline-danger"
+                onClick={handleFavour}
+              >
+                <i className="lni lni-heart"></i> Yêu thích
+              </button>
+            )}
           </div>
           <div className="col-6">
-            <button type="button" class="btn btn-outline-dark ">
-              <i class="fas fa-user-edit"></i> Write down your feeling
-            </button>
+            <Button
+              outline
+              color="dark"
+              onClick={handleReview}
+              style={{ borderRadius: "1px solid rgb(0,0,0,0.1)" }}
+            >
+              <i className="fas fa-user-edit"></i> Đánh giá
+            </Button>
           </div>{" "}
         </div>
       </div>
+      <Collapse isOpen={isOpen} className="container">
+        <div className="col-12 reviews" id="review">
+          <Review userID={props.userID} bookID={props.data.id}/>
+          <div className="row col-12 reviewSubmit">
+            <div className="col"></div>
+            <button type="button" className="btn btn-dark col-4" onClick={toggle}>
+              Huỷ bỏ
+            </button>
+          </div>
+        </div>
+      </Collapse>
+
       <div className="col-12 mt-4 mb-4">
         <div className="row no-gutters product-all-details">
           <ul className="col-12 nav nav-tabs" id="myTab" role="tablist">
@@ -171,7 +193,7 @@ const BookInfor = (props) => {
                 aria-controls="home"
                 aria-selected="true"
               >
-                Project Description
+                Thông tin về sách
               </a>
             </li>
 
@@ -185,7 +207,7 @@ const BookInfor = (props) => {
                 aria-controls="contact"
                 aria-selected="false"
               >
-                Customer Reviews
+                Đánh giá của người đọc
               </a>
             </li>
           </ul>
@@ -198,16 +220,7 @@ const BookInfor = (props) => {
               aria-labelledby="home-tab"
             >
               <p className="product-tab-description text-center text-lg-left">
-                If you are a small business and you are interested in small
-                rebranding then this is a perfect plan for you, having Five
-                years experience in Blogging, photographing, Disgning and love
-                to cycling,Writting,Singing and Traveling around the world
-              </p>
-              <p className="product-tab-description text-center text-lg-left">
-                If you are a small business and you are interested in small
-                rebranding then this is a perfect plan for you, having Five
-                years experience in Blogging, photographing, Disgning and love
-                to cycling,Writting,Singing and Traveling around the world
+                {props.data.description}
               </p>
             </div>
 
@@ -428,7 +441,31 @@ const BookInfor = (props) => {
   );
 };
 
-const Detail = () => {
+const Detail = (props) => {
+  const [data, setData] = useState({});
+  const [author, setAuthor] = useState({});
+  const [publisher, setPublisher] = useState({});
+  const [category, setCategory] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const userID = localStorage.getItem("user-id");
+  const apistring = "http://localhost:9000/api/book/" + props.id;
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      const result = await axios(apistring);
+
+      if (result.status == 200) {
+        setData(result.data);
+        setAuthor(result.data.author);
+        setPublisher(result.data.publisher);
+        setCategory(result.data.category);
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <>
       {/* START HEADING SECTION */}
@@ -441,26 +478,40 @@ const Detail = () => {
                 <div className="pro-detail-sec row">
                   <div className="col-12">
                     <h4 className="pro-heading text-center text-lg-left">
-                      Books Collections
+                      Sách
                     </h4>
                     <p className="pro-text text-center text-lg-left">
                       <cite>
-                        “A great book should leave you with many experiences,
-                        and slightly exhausted at the end. You live several
-                        lives while reading.”
+                        “Việc đọc rất quan trọng. Nếu bạn biết cách đọc, cả thế
+                        giới sẽ mở ra cho bạn.”
                       </cite>
-                      – William Styron
+                      – Barack Obama
                     </p>
                   </div>
                 </div>
-                <BookInfor />
+
+                {isLoading ? (
+                  <div class="d-flex justify-content-center">
+                    <div class="spinner-border text-secondary" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </div>
+                ) : (
+                  <BookInfor
+                    data={data}
+                    author={author}
+                    publisher={publisher}
+                    category={category}
+                    userID={userID}
+                  />
+                )}
+
                 {/*  */}
               </div>
             </div>
           </div>
         </div>
       </div>
-      ;
     </>
   );
 };

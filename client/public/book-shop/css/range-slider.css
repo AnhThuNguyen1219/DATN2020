@@ -2,7 +2,7 @@
     height: 4px;
 }
 .noUi-connect {
-    background-color: #62ab00;
+    background-color: #dc3545;
 }
 .noUi-connects {
     margin-top: -1px;
@@ -13,7 +13,7 @@
     height: 18px;
     border-radius: 50%;
     top: -8px;
-    background-color: #62ab00;
+    background-color: #dc3545;
 }
 
 .noUi-handle:after, .noUi-handle:before {
