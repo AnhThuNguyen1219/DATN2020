@@ -5,22 +5,25 @@ import { addReviewBook } from "../../service/DataService.jsx";
 
 const Review = (props) => {
   const [value, setValue] = useState("");
-  const [rate, setRate] = useState();
+  const [title, setTitle] = useState("50");
+  const [rate, setRate] = useState(50);
 
   const handlePostReview = (event) => {
     event.preventDefault();
-    addReviewBook(props.userID, props.bookID, rate, value).then((status) => {
-      if (status == 200) {
-        alert("Thành công!");
-        window.location.reload();
-      } else if (status == 400) {
-        alert("Bạn đã đánh giá cuốn sách này!");
-        window.location.reload();
-      } else {
-        alert(status);
-        console.log(status);
+    addReviewBook(props.userID, props.bookID, rate, title, value).then(
+      (status) => {
+        if (status == 200) {
+          alert("Thành công!");
+          window.location.reload();
+        } else if (status == 400) {
+          alert("Bạn đã đánh giá cuốn sách này!");
+          window.location.reload();
+        } else {
+          alert(status);
+          console.log(status);
+        }
       }
-    });
+    );
   };
 
   return (
@@ -45,6 +48,23 @@ const Review = (props) => {
         </div>
       </form>
       <p>Viết cảm nhận của bạn vào đây nha</p>
+      <div className="input-group mb-3">
+        <div className="input-group-prepend">
+          <span className="input-group-text" id="basic-addon1">
+            Tiêu đề
+          </span>
+        </div>
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Tiêu đề"
+          aria-label="Username"
+          aria-describedby="basic-addon1"
+          onChange={(event) => {
+            setTitle(event.target.value);
+          }}
+        />
+      </div>
       <ReactQuill theme="snow" value={value} onChange={setValue} />
       <div className="row col-12 reviewSubmit">
         <div className="col"></div>

@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { CardBook } from "./list_book";
+
 const UserInfor = (props) => {
   return (
     <>
-      <div id="about-tab" className="tabcontent active">
+      <div id="about-tab" className="tabcontent">
         <div className="pb-0 pb-sm-2">
           <h1 className="title title--h1 first-title title__separate">
             About Me
@@ -234,53 +237,98 @@ const UserListBlog = (props) => {
     <>
       <div id="blog-tab" className="tabcontent">
         <div className="pb-2">
-          <h1 className="title title--h1 first-title title__separate">Blog</h1>
+          <h4 className="title title--h1 first-title title__separate">Đánh giá</h4>
         </div>
         {/* News */}
         <div className="news-grid">
           {/* Post */}
-          <ThumnailBlog/>
+          { props.review.review.map(rev => <ThumnailBlog review={rev}/> )}
+         
         </div>
       </div>
     </>
   );
 };
 
-const ThumnailBlog=(props)=>{
-    return(
-        <>
-        <article className="news-item box">
-            <div className="news-item__image-wrap overlay overlay--45">
-              <div className="news-item__date">
-                16<span>Jun</span>
-              </div>
-              <a className="news-item__link" href="single-post.html" />
-              <img
-                className="cover lazyload"
-                src="assets\img\image_02.jpg"
-                alt
-              />
-            </div>
-            <div className="news-item__caption">
-              <h2 className="title title--h4">Design Conferences in 2019</h2>
-              <p>
-                Veritatis et quasi architecto beatae vitae dicta sunt,
-                explicabo.
-              </p>
-            </div>
-          </article>
-        </>
-    );
-}
-
-const UserFavouriteList = () => {
-  return(
+const ThumnailBlog = (props) => {
+  // var d = new Intl.DateTimeFormat("vi-VN", {
+  //   year: "numeric",
+  //   month: "numeric",
+  //   day: "numeric",
+  // }).format(new Date(props.createdAt));
+  
+  return (
     <>
+      <article className="news-item box">
+        <div className="">
+          <div className="news-item__date">
+            aaa
+            {/* {d.toLocaleString()} */}
+          </div>
+          <a className="news-item__link" href="single-post.html" />
+          <img className="" src={props.review.book_cover} alt />
+        </div>
+        <div className="news-item__caption">
+          <h2 className="title title--h4">{props.review.book_title}</h2>
+          <p>
+            {props.review.title}
+          </p>
+        </div>
+      </article>
     </>
   );
-}
+};
+
+const UserFavouriteList = (props) => {
+  return <></>;
+};
 
 const UserDetail = (props) => {
+  const [userInfor, setUserInfor] = useState({});
+  const [dob, setDOB] = useState("");
+  const [bookInfor, setBookInfor] = useState({ books: [] });
+  const [isLoading, setIsLoading] = useState(false);
+  const [review, setReview]= useState({review:[]})
+
+  const userstring = "http://localhost:9000/api/user/" + props.userID;
+  const userfavourstring =
+    "http://localhost:9000/api/user/" + props.userID + "/favourite";
+
+  const userreviewstring=
+  "http://localhost:9000/api/user/" + props.userID + "/review";
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      const user = await axios(userstring);
+
+      if (user.status == 200) {
+        setUserInfor(user.data);
+        setDOB(user.data.dob);
+        var d = new Intl.DateTimeFormat("vi-VN", {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+        }).format(new Date(user.data.dob));
+        setDOB(d.toLocaleString());
+        setIsLoading(false);
+      }
+
+      const bookFavour = await axios(userfavourstring);
+      if (bookFavour.status == 200) {
+        setBookInfor(bookFavour.data);
+        setIsLoading(false);
+      }
+
+      const bookReview = await axios(userreviewstring);
+      if (bookReview.status == 200) {
+        setReview(bookReview.data);
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <main className="main">
@@ -288,7 +336,10 @@ const UserDetail = (props) => {
         <div className="header-image">
           <div
             className="js-parallax"
-            style={{ backgroundImage: "url(assets/img/image_header.jpg)" }}
+            style={{
+              backgroundImage:
+                "url(https://images.coplusk.net/project_images/203629/image/2017-11-08-161912-p57.jpg)",
+            }}
           />
         </div>
         <div className="container gutter-top">
@@ -298,13 +349,13 @@ const UserDetail = (props) => {
               <div className="header__photo">
                 <img
                   className="header__photo-img"
-                  src="assets\img\main-photo.svg"
-                  alt="Ronald Robertson"
+                  src={userInfor.avatar_url}
+                  alt={userInfor.username}
                 />
               </div>
               <div className="header__base-info">
-                <h4 className="title titl--h4">Ronald Robertson</h4>
-                <div className="status">Creative Director</div>
+                <h4 className="title titl--h4">{userInfor.username}</h4>
+                {/* <div className="status">Creative Director</div> */}
                 <ul className="header__social">
                   <li>
                     <a href="https://www.facebook.com">
@@ -327,18 +378,14 @@ const UserDetail = (props) => {
             <div className="header__right">
               <ul className="header__contact">
                 <li>
-                  <span className="overhead">Email</span>ronald@example.com
-                </li>
-                <li>
-                  <span className="overhead">Phone</span>+1 (070) 123–8459
+                  <span className="overhead">Tên người dùng</span>
+                  {userInfor.username}
                 </li>
               </ul>
               <ul className="header__contact">
                 <li>
-                  <span className="overhead">Birthday</span>17 March, 1995
-                </li>
-                <li>
-                  <span className="overhead">Location</span>San-Francisco, USA
+                  <span className="overhead">Ngày sinh</span>
+                  {dob}
                 </li>
               </ul>
             </div>
@@ -348,25 +395,28 @@ const UserDetail = (props) => {
             <aside className="col-12 col-md-12 col-lg-2">
               <div className="sidebar box sticky-column">
                 <ul className="nav js-tabs">
-                
                   <li className="nav__item">
-                    <a className="active" href="#about-tab">
-                      <i className="icon-user" />
-                      About
-                    </a>
-                  </li>
-                  <hr/>
-                  <li className="nav__item">
-                    <a href="#favourite-tab">
+                    <a
+                      className="active"
+                      href="#favourite-tab"
+                      style={{ textDecoration: "none" }}
+                    >
                       <i className="lni lni-heart"></i>
-                      Favourite
+                      Yêu thích
                     </a>
                   </li>
-                  <hr/>
+                  <hr />
                   <li className="nav__item">
-                    <a href="#blog-tab">
+                    <a href="#blog-tab" style={{ textDecoration: "none" }}>
                       <i className="icon-book-open" />
-                      Blog
+                      Đánh giá
+                    </a>
+                  </li>
+                  <hr />
+                  <li className="nav__item">
+                    <a href="#about-tab" style={{ textDecoration: "none" }}>
+                      <i className="icon-user" />
+                      Thông tin
                     </a>
                   </li>
                 </ul>
@@ -376,18 +426,15 @@ const UserDetail = (props) => {
             <div className="col-12 col-md-12 col-lg-10">
               <div className="box box-content" id="content">
                 <div className="content">
-                  {/* ABOUT */}
-                  <UserInfor />
-
                   {/* FAVOURITE */}
-                  <div id="favourite-tab" className="tabcontent">
+                  <div id="favourite-tab" className="tabcontent active">
                     <div className="pb-2">
-                      <h1 className="title title--h1 first-title title__separate">
-                        Favourite book
-                      </h1>
+                      <h4 className="title title--h1 first-title title__separate">
+                        Danh sách yêu thích
+                      </h4>
                     </div>
                     {/* Filter */}
-                    <div className="select">
+                    {/* <div className="select">
                       <span className="placeholder">Select category</span>
                       <ul className="filter">
                         <li className="filter__item">Category</li>
@@ -422,174 +469,29 @@ const UserDetail = (props) => {
                         </li>
                       </ul>
                       <input type="hidden" name="changemetoo" />
+                    </div> */}
+                    {/* List favourite */}
+                    <div className="container">
+                      <div className="row">
+                        {/* <div className="gutter-sizer" /> */}
+                        {bookInfor.books.map((data) => (
+                          <>
+                            <CardBook
+                              Id={data.id}
+                              Cover={data.cover}
+                              Title={data.title}
+                            ></CardBook>
+                          </>
+                        ))}
+                      </div>
                     </div>
-                    {/* Gallery */}
-                    <div className="gallery-grid js-grid-row js-filter-container">
-                      <div className="gutter-sizer" />
-                      {/* Item 1 */}
-                      <figure className="gallery-grid__item category-concept">
-                        <div className="gallery-grid__image-wrap">
-                          <img
-                            className="gallery-grid__image cover lazyload"
-                            src="assets\img\image_01.jpg"
-                            data-zoom
-                            alt
-                          />
-                        </div>
-                        <figcaption className="gallery-grid__caption">
-                          <h4 className="title title--h6 gallery-grid__title">
-                            Half Avocado
-                          </h4>
-                          <span className="gallery-grid__category">
-                            Concept
-                          </span>
-                        </figcaption>
-                      </figure>
-                      {/* Item 2 */}
-                      <figure className="gallery-grid__item category-concept">
-                        <div className="gallery-grid__image-wrap">
-                          <img
-                            className="gallery-grid__image cover lazyload"
-                            src="assets\img\image_02.jpg"
-                            data-zoom
-                            alt
-                          />
-                        </div>
-                        <figcaption className="gallery-grid__caption">
-                          <h4 className="title title--h6 gallery-grid__title">
-                            Pink Flamingo
-                          </h4>
-                          <span className="gallery-grid__category">
-                            Concept
-                          </span>
-                        </figcaption>
-                      </figure>
-                      {/* Item 3 */}
-                      <figure className="gallery-grid__item category-design">
-                        <div className="gallery-grid__image-wrap">
-                          <img
-                            className="gallery-grid__image cover lazyload"
-                            src="assets\img\image_03.jpg"
-                            data-zoom
-                            alt
-                          />
-                        </div>
-                        <figcaption className="gallery-grid__caption">
-                          <h4 className="title title--h6 gallery-grid__title">
-                            Abstract
-                          </h4>
-                          <span className="gallery-grid__category">Design</span>
-                        </figcaption>
-                      </figure>
-                      {/* Item 4 */}
-                      <figure className="gallery-grid__item category-design">
-                        <div className="gallery-grid__image-wrap">
-                          <img
-                            className="gallery-grid__image cover lazyload"
-                            src="assets\img\image_04.jpg"
-                            data-zoom
-                            alt
-                          />
-                        </div>
-                        <figcaption className="gallery-grid__caption">
-                          <h4 className="title title--h6 gallery-grid__title">
-                            Abstract #2
-                          </h4>
-                          <span className="gallery-grid__category">Design</span>
-                        </figcaption>
-                      </figure>
-                      {/* Item 5 */}
-                      <figure className="gallery-grid__item category-design">
-                        <div className="gallery-grid__image-wrap">
-                          <img
-                            className="gallery-grid__image cover lazyload"
-                            src="assets\img\image_05.jpg"
-                            data-zoom
-                            alt
-                          />
-                        </div>
-                        <figcaption className="gallery-grid__caption">
-                          <h4 className="title title--h6 gallery-grid__title">
-                            Abstract #3
-                          </h4>
-                          <span className="gallery-grid__category">Design</span>
-                        </figcaption>
-                      </figure>
-                      {/* Item 6 */}
-                      <figure className="gallery-grid__item category-life">
-                        <div className="gallery-grid__image-wrap">
-                          <img
-                            className="gallery-grid__image cover lazyload"
-                            src="assets\img\image_06.jpg"
-                            data-zoom
-                            alt
-                          />
-                        </div>
-                        <figcaption className="gallery-grid__caption">
-                          <h4 className="title title--h6 gallery-grid__title">
-                            Golden Gate
-                          </h4>
-                          <span className="gallery-grid__category">Life</span>
-                        </figcaption>
-                      </figure>
-                      {/* Item 7 */}
-                      <figure className="gallery-grid__item category-concept">
-                        <div className="gallery-grid__image-wrap">
-                          <img
-                            className="gallery-grid__image cover lazyload"
-                            src="assets\img\image_07.jpg"
-                            data-zoom
-                            alt
-                          />
-                        </div>
-                        <figcaption className="gallery-grid__caption">
-                          <h4 className="title title--h6 gallery-grid__title">
-                            Peach
-                          </h4>
-                          <span className="gallery-grid__category">
-                            Concept
-                          </span>
-                        </figcaption>
-                      </figure>
-                      {/* Item 8 */}
-                      <figure className="gallery-grid__item category-design">
-                        <div className="gallery-grid__image-wrap">
-                          <img
-                            className="gallery-grid__image cover lazyload"
-                            src="assets\img\image_08.jpg"
-                            data-zoom
-                            alt
-                          />
-                        </div>
-                        <figcaption className="gallery-grid__caption">
-                          <h4 className="title title--h6 gallery-grid__title">
-                            Abstract #4
-                          </h4>
-                          <span className="gallery-grid__category">Design</span>
-                        </figcaption>
-                      </figure>
-                      {/* Item 9 */}
-                      <figure className="gallery-grid__item category-life">
-                        <div className="gallery-grid__image-wrap">
-                          <img
-                            className="gallery-grid__image cover lazyload"
-                            src="assets\img\image_09.jpg"
-                            data-zoom
-                            alt
-                          />
-                        </div>
-                        <figcaption className="gallery-grid__caption">
-                          <h4 className="title title--h6 gallery-grid__title">
-                            Hedgehog
-                          </h4>
-                          <span className="gallery-grid__category">Life</span>
-                        </figcaption>
-                      </figure>
-                    </div>
-                    {/* Gallery End */}
+                    {/* List favourite End */}
                   </div>
                   {/* BLOG */}
-                  <UserListBlog></UserListBlog>
+                  <UserListBlog review={review}></UserListBlog>
+                  {console.log(review)}
+                  {/* ABOUT */}
+                  <UserInfor />
                 </div>
               </div>
             </div>

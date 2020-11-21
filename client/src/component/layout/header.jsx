@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { selectUser } from "../../action/UserAction";
 import { useSelector, useDispatch } from "react-redux";
 import login from "../../service/LoginService.jsx";
-import { useHistory } from "react-router-dom";
+import { useHistory ,Link} from "react-router-dom";
 
 const Categories = (props) => {
   return (
@@ -125,6 +125,11 @@ const Avatar = () => {
   const name = localStorage.getItem("user-name")
   const ava = localStorage.getItem("user-ava")
   const dob = localStorage.getItem("user-dob")
+  function handleLogout(event){
+    event.preventDefault();
+    localStorage.clear();
+    window.location.reload(false);
+  }
   if (token == null)
     return (
       <>
@@ -160,14 +165,14 @@ const Avatar = () => {
               <span className="sr-only">User Information</span>
             </button>
             <div className="dropdown-menu">
-              <a className="dropdown-item" href="/user"id={id}>
+            <a href={`/user/${id}`}  className="dropdown-item" id={id}>
                 {name}
               </a>
               <a className="dropdown-item" href="#">
                 Cài đặt
               </a>
               <div className="dropdown-divider"></div>
-              <a className="dropdown-item" href="#">
+              <a className="dropdown-item" href="#" onClick={handleLogout}>
                 <i className="lni lni-exit"></i>
                 Đăng xuất
               </a>
@@ -205,7 +210,6 @@ const SideLogin = () => {
           localStorage.setItem("user-dob", data.dob);
 
           setWaitingLogin(false);
-          history.push("/");
           setUserInfo(data);
           dispatchUserInfo(selectUser(userInfor));
           window.location.reload(false);
@@ -276,7 +280,7 @@ const SideLogin = () => {
                         }}
                       />
                     </div>
-                    <div className="form-group form-check">
+                    {/* <div className="form-group form-check">
                       <input
                         type="checkbox"
                         className="form-check-input"
@@ -288,7 +292,7 @@ const SideLogin = () => {
                       >
                         Remember me
                       </label>
-                    </div>
+                    </div> */}
                     <button
                       type="submit"
                       className="btn btn-outline-dark"
@@ -322,6 +326,7 @@ const SideLogin = () => {
                     data-target="#collapseTwo"
                     aria-expanded="false"
                     aria-controls="collapseTwo"
+                    
                   >
                     ĐĂNG KÍ
                   </button>

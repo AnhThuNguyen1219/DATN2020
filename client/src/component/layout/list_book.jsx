@@ -65,5 +65,5 @@ const ListBooks = (props) => {
     </div>
   );
 };
-
 export default ListBooks;
+export  {CardBook};

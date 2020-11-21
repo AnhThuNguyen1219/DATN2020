@@ -24,9 +24,6 @@ const Home = () => {
 
   return (
     <>
-    
-      
-    
       <Banner />
       {isLoading ? (
         <div class="d-flex justify-content-center">

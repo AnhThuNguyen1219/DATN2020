@@ -124,7 +124,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .title--h1 {
-  font-size: 2rem;
+  font-size:30px;
   margin-bottom: 1.3rem;
 }
 @media only screen and (max-width: 580px) {

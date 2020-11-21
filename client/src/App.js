@@ -18,6 +18,7 @@ import Review from "./component/layout/review";
 
 function App() {
   // let { bookId } = useParams()
+  
   return (
     <>
       <div>
@@ -32,7 +33,7 @@ function App() {
       <Header />
       <Switch>
         <Route exact path="/" render={() => <Home />}/>
-        <Route  path="/user" render={() => <User />} />
+        <Route  path="/user/:userID" render={() => <User />} />
         <Route  path="/category" render={() => <BookCategory categoryName="History" />}/>
         <Route  exact path="/book" render={() => <BookLighter />} />
         <Route path="/book/:bookId" render={() => <BookDetail /> } />

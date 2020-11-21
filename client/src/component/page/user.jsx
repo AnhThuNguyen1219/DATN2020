@@ -1,13 +1,14 @@
 import React from "react";
-import Footer from "../layout/footer";
-import Header from "../layout/header";
+import { useParams } from 'react-router-dom';
 import UserDetail from "../layout/user-detail";
 
 const User = () => {
+  const {userID} = useParams();
+  console.log(userID)
   return (
     <>
       <div>
-        <UserDetail />
+        <UserDetail userID={userID}/>
       </div>
     </>
   );

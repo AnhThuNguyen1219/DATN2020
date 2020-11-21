@@ -28,9 +28,9 @@ const addFavourBook =async (userID, bookID) => {
     });
 };
 
-const addReviewBook = async (userID, bookID, rating, rate_review)=>{
+const addReviewBook = async (userID, bookID, rating, title, rate_review)=>{
   var token = localStorage.getItem("accessToken");
-  
+  var time = Date.now()
 
   return await axios({
     method:"post",
@@ -46,7 +46,9 @@ const addReviewBook = async (userID, bookID, rating, rate_review)=>{
       'user_id': userID,
       'book_id': ''+bookID,
       'rating':''+rating,
-      'rate_review':rate_review
+      'title': title,
+      'rate_review':rate_review,
+      'time':''+time.toLocaleString("vi-VN"),
     },
   })
     .then(function (response) {
